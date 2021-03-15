@@ -1,0 +1,37 @@
+# CMAKE toolchain for the gcc arm-none-eabi
+#
+set(CMAKE_SYSTEM_NAME      Generic)
+set(CMAKE_SYSTEM_VERSION   1)
+set(CMAKE_SYSTEM_PROCESSOR arm-none-eabi)
+
+# set arm-none-eabi toolchain paths
+if (NOT TOOLCHAIN_DIR)
+set(TOOLCHAIN_DIR /opt/crossarm/gcc-arm-none-eabi-7-2018-q2-update)
+endif()
+
+set(TOOL_CHAIN_PREFIX arm-none-eabi)
+set(TOOLCHAIN_BIN_DIR ${TOOLCHAIN_DIR}/bin)
+set(TOOLCHAIN_LIB_DIR ${TOOLCHAIN_DIR}/lib)
+
+if(WIN32)
+set(EXE .exe)
+endif(WIN32)
+
+# which compilers to use for C and C++
+#
+SET(CMAKE_AR               ${TOOLCHAIN_BIN_DIR}/${TOOL_CHAIN_PREFIX}-gcc-ar${EXE})
+SET(CMAKE_RANLIB           ${TOOLCHAIN_BIN_DIR}/${TOOL_CHAIN_PREFIX}-gcc-ranlib${EXE})
+SET(CMAKE_LD               ${TOOLCHAIN_BIN_DIR}/${TOOL_CHAIN_PREFIX}-ld${EXE})
+set(CMAKE_C_COMPILER       ${TOOLCHAIN_BIN_DIR}/${TOOL_CHAIN_PREFIX}-gcc${EXE})
+set(CMAKE_CXX_COMPILER     ${TOOLCHAIN_BIN_DIR}/${TOOL_CHAIN_PREFIX}-g++${EXE})
+set(CMAKE_ASM_COMPILER     ${TOOLCHAIN_BIN_DIR}/${TOOL_CHAIN_PREFIX}-as${EXE})
+set(CMAKE_OBJCOPY     	   ${TOOLCHAIN_BIN_DIR}/${TOOL_CHAIN_PREFIX}-objcopy${EXE} CACHE INTERNAL "objcopy command")
+set(CMAKE_OBJDUMP     	   ${TOOLCHAIN_BIN_DIR}/${TOOL_CHAIN_PREFIX}-objdump${EXE} CACHE INTERNAL "objdump command")
+set(CMAKE_GDB              ${TOOLCHAIN_BIN_DIR}/${TOOL_CHAIN_PREFIX}-gdb${EXE})
+set(CMAKE_SIZE              ${TOOLCHAIN_BIN_DIR}/${TOOL_CHAIN_PREFIX}-size${EXE})
+
+# set(CMAKE_C_ARCHIVE_CREATE "<CMAKE_AR> qc <TARGET> <LINK_FLAGS> <OBJECTS>")
+set(CMAKE_C_ARCHIVE_CREATE "${CMAKE_AR} qc <TARGET> <OBJECTS>")
+set(CMAKE_C_ARCHIVE_FINISH "<CMAKE_RANLIB> <TARGET>")
+
+SET(CMAKE_ASM_COMPILE_OBJECT "<CMAKE_ASM_COMPILER> <FLAGS> -o <OBJECT> <SOURCE>")

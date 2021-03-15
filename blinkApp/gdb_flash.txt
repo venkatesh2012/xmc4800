@@ -1,0 +1,14 @@
+# Segger: listen on port
+target remote localhost:2331
+
+# Segger: reset device
+monitor reset
+
+# Segger: specify flash of device
+monitor device = XMC4800-2048
+
+# load/flash application file
+load ./build/blinkApp.elf
+
+# exit gdb
+#quit
